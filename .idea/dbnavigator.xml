@@ -10,14 +10,14 @@
     <value-preview-pinned value="false" />
   </component>
   <component name="DBNavigator.Project.DatabaseBrowserManager">
-    <autoscroll-to-editor value="false" />
+    <autoscroll-to-editor value="true" />
     <autoscroll-from-editor value="true" />
     <show-object-properties value="false" />
     <loaded-nodes />
   </component>
   <component name="DBNavigator.Project.DatabaseConsoleManager">
     <connection id="8b21e6ec-1be6-472e-b451-35669d7968e3">
-      <console name="likelion-db" type="STANDARD" schema="" session="Main" />
+      <console name="likelion-db" type="STANDARD" schema="" session="Main"><![CDATA[DROP INDEX FKskvlv9lnj3plivn0grmqf950f ON loan;]]></console>
     </connection>
   </component>
   <component name="DBNavigator.Project.DatabaseEditorStateManager">
@@ -25,7 +25,7 @@
   </component>
   <component name="DBNavigator.Project.DatabaseFileManager">
     <open-files>
-      <object connection-id="8b21e6ec-1be6-472e-b451-35669d7968e3" object-ref="consoles/likelion-db" />
+      <object connection-id="8b21e6ec-1be6-472e-b451-35669d7968e3" object-ref="schemas/lion_5/tables/member" />
     </open-files>
   </component>
   <component name="DBNavigator.Project.DatabaseSessionManager">
@@ -58,6 +58,9 @@
   <component name="DBNavigator.Project.ObjectQuickFilterManager">
     <last-used-operator value="EQUAL" />
     <filters />
+  </component>
+  <component name="DBNavigator.Project.ScriptExecutionManager" clear-outputs="true">
+    <recently-used-interfaces />
   </component>
   <component name="DBNavigator.Project.Settings">
     <connections>

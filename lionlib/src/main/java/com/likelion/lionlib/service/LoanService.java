@@ -4,8 +4,10 @@ import com.likelion.lionlib.domain.Book;
 import com.likelion.lionlib.domain.Loan;
 import com.likelion.lionlib.domain.LoanStatus;
 import com.likelion.lionlib.domain.Member;
-import com.likelion.lionlib.dto.LoanRequest;
-import com.likelion.lionlib.dto.LoanResponse;
+import com.likelion.lionlib.dto.CustomUserDetails;
+import com.likelion.lionlib.dto.request.LoanRequest;
+import com.likelion.lionlib.dto.response.LoanResponse;
+import com.likelion.lionlib.exception.LoanNotFoundException;
 import com.likelion.lionlib.repository.LoanRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -20,8 +22,8 @@ public class LoanService {
 
     private final GlobalService globalService;
 
-    public LoanResponse addLoan(LoanRequest loanRequest) {
-        Member member = globalService.findMemberById(loanRequest.getMemberId());
+    public LoanResponse addLoan(CustomUserDetails customUserDetails,LoanRequest loanRequest) {
+        Member member = globalService.findMemberById(customUserDetails.getId());
         Book book = globalService.findBookById(loanRequest.getBookId());
         Loan savedLoan = Loan.builder()
                 .member(member)
@@ -46,8 +48,8 @@ public class LoanService {
         return LoanResponse.fromEntity(updatedLoan);
     }
 
-    public List<LoanResponse> getLoansByMemberId(Long memberId) {
-        List<Loan> loans = findLoansByMemberId(memberId);
+    public List<LoanResponse> getLoansByMemberId(CustomUserDetails customUserDetails) {
+        List<Loan> loans = findLoansByMemberId(customUserDetails.getId());
         return loans.stream()
                 .map(LoanResponse::fromEntity)
                 .collect(Collectors.toList());
@@ -55,7 +57,7 @@ public class LoanService {
 
     private Loan findLoanById(Long loanId) {
         return loanRepository.findById(loanId)
-                .orElseThrow(() -> new RuntimeException("Loan not found"));
+                .orElseThrow(() -> new LoanNotFoundException(loanId));
     }
 
     private List<Loan> findLoansByMemberId(Long memberId) {

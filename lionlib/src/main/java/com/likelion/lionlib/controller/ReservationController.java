@@ -1,12 +1,14 @@
 package com.likelion.lionlib.controller;
 
+import com.likelion.lionlib.dto.CustomUserDetails;
 import com.likelion.lionlib.dto.request.ReservationRequest;
 import com.likelion.lionlib.dto.response.ReservationResponse;
 import com.likelion.lionlib.dto.response.ReserveCountResponse;
 import com.likelion.lionlib.service.ReservationService;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -14,49 +16,67 @@ import java.util.List;
 @Slf4j
 @RestController
 @RequestMapping("/api/v1")
-@RequiredArgsConstructor
 public class ReservationController {
-
     private final ReservationService reservationService;
 
-    @PostMapping("/reservations")
-    public ResponseEntity<ReservationResponse> createReservation(@RequestBody ReservationRequest request) {
-        log.info("Creating new reservation: {}", request);
-        ReservationResponse newReservation = reservationService.addReserve(request);
-        return ResponseEntity.ok(newReservation);
+    public ReservationController(ReservationService reservationService){
+        this.reservationService = reservationService;
     }
 
-    @GetMapping("/reservations/{id}")
-    public ResponseEntity<ReservationResponse> getReservation(@PathVariable("id") Long id) {
-        log.info("Fetching reservation with ID: {}", id);
-        ReservationResponse reservation = reservationService.getReserve(id);
+    @PostMapping("/reservations")
+    public ResponseEntity<ReservationResponse> addReserve(
+            @RequestBody ReservationRequest reservationRequest,
+            @AuthenticationPrincipal CustomUserDetails customUserDetails){
+        log.info("Request POST a Reservation: {}", reservationRequest);
+
+        ReservationResponse savedReserve = reservationService.addReserve(customUserDetails, reservationRequest);
+        return ResponseEntity.ok(savedReserve);
+    }
+
+    @GetMapping("/reservations/{reservationsId}")
+    public ResponseEntity<ReservationResponse> getReserve(
+            @PathVariable Long reservationsId
+    ){
+        log.info("Request GET a Reservation with ID: {}", reservationsId);
+        ReservationResponse reservation = reservationService.getReserve(reservationsId);
+
         return ResponseEntity.ok(reservation);
     }
 
-    @DeleteMapping("/reservations/{id}")
-    public ResponseEntity<String> cancelReservation(@PathVariable("id") Long id) {
-        log.info("Canceling reservation with ID: {}", id);
-        reservationService.deleteReserve(id);
-        return ResponseEntity.ok("Reservation canceled successfully.");
+    @DeleteMapping("/reservations/{reservationsId}")
+    public ResponseEntity<?> deleteReserve(
+            @PathVariable Long reservationsId
+    ){
+        log.info("Request DELETE reservation with ID: {}", reservationsId);
+        reservationService.deleteReserve(reservationsId);
+        return ResponseEntity.ok().body("예약이 취소되었습니다.");
     }
 
-    @GetMapping("/members/{memberId}/reservations")
-    public ResponseEntity<List<ReservationResponse>> getReservationsByMember(@PathVariable("memberId") Long memberId) {
-        log.info("Fetching reservations for member ID: {}", memberId);
-        List<ReservationResponse> reservations = reservationService.getMemberReserve(memberId);
+    @GetMapping("/members/reservations")
+    public ResponseEntity<List<ReservationResponse>> getMemberReserve(
+            @AuthenticationPrincipal CustomUserDetails customUserDetails
+    ){
+        log.info("Request GET a reservations for memberID: {}", customUserDetails.getId());
 
-        if (reservations.isEmpty()) {
-            log.warn("No reservations found for member ID: {}", memberId);
+        List<ReservationResponse> reservation = reservationService.getMemberReserve(customUserDetails);
+
+        if (reservation.isEmpty()) {
+            log.info("No reservations found for memberId: {}", customUserDetails.getId());
             return ResponseEntity.noContent().build();
         }
 
-        return ResponseEntity.ok(reservations);
+        return ResponseEntity.ok(reservation);
+
     }
 
-    @GetMapping("/books/{bookId}/reservations")
-    public ResponseEntity<ReserveCountResponse> getReservationCountForBook(@PathVariable("bookId") Long bookId) {
-        log.info("Fetching reservation count for book ID: {}", bookId);
+    @GetMapping("books/{bookId}/reservations")
+    public ResponseEntity<?> countReserve(
+            @PathVariable Long bookId
+    ){
+        log.info("Request GET a Counting Reservation for bookId : {}", bookId);
         ReserveCountResponse count = reservationService.countReserve(bookId);
         return ResponseEntity.ok(count);
     }
+
+
 }
