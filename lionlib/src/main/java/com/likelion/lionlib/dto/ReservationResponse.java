@@ -15,7 +15,7 @@ public class ReservationResponse {
     private Long bookId;
 
     // 정적 팩토리 메서드 변형
-    public static ReservationResponse from(Reservation reservation) {
+    public static ReservationResponse fromEntity(Reservation reservation) {
         ReservationResponse response = new ReservationResponse();
         response.memberId = reservation.getMember().getId();
         response.bookId = reservation.getBook().getId();

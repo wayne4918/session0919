@@ -1,9 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="DBNavigator.Project.DDLFileAttachmentManager">
+    <mappings />
+    <preferences />
+  </component>
+  <component name="DBNavigator.Project.DataEditorManager">
+    <record-view-column-sorting-type value="BY_INDEX" />
+    <value-preview-text-wrapping value="false" />
+    <value-preview-pinned value="false" />
+  </component>
   <component name="DBNavigator.Project.DatabaseBrowserManager">
     <autoscroll-to-editor value="false" />
     <autoscroll-from-editor value="true" />
-    <show-object-properties value="true" />
+    <show-object-properties value="false" />
     <loaded-nodes />
   </component>
   <component name="DBNavigator.Project.DatabaseConsoleManager">
@@ -11,8 +20,29 @@
       <console name="likelion-db" type="STANDARD" schema="" session="Main" />
     </connection>
   </component>
+  <component name="DBNavigator.Project.DatabaseEditorStateManager">
+    <last-used-providers />
+  </component>
   <component name="DBNavigator.Project.DatabaseFileManager">
-    <open-files />
+    <open-files>
+      <object connection-id="8b21e6ec-1be6-472e-b451-35669d7968e3" object-ref="consoles/likelion-db" />
+    </open-files>
+  </component>
+  <component name="DBNavigator.Project.DatabaseSessionManager">
+    <connection id="8b21e6ec-1be6-472e-b451-35669d7968e3" />
+  </component>
+  <component name="DBNavigator.Project.DatasetFilterManager">
+    <filter-actions connection-id="8b21e6ec-1be6-472e-b451-35669d7968e3" dataset="lion_5.member" active-filter-id="EMPTY_FILTER">
+      <filter id="a4e433d4-bdf6-4f4e-8f20-c844f2241c0f" name="1" temporary="false" custom-name="false" type="basic" join-type="AND">
+        <condition column="member_id" operator="=" value="1" active="true" />
+      </filter>
+    </filter-actions>
+    <filter-actions connection-id="8b21e6ec-1be6-472e-b451-35669d7968e3" dataset="lion_5.loan" active-filter-id="" />
+    <filter-actions connection-id="8b21e6ec-1be6-472e-b451-35669d7968e3" dataset="lion_5.book" active-filter-id="EMPTY_FILTER">
+      <filter id="e78f754f-3604-4b8e-bd92-d0740be30f97" name="Filter 1" temporary="false" custom-name="false" type="basic" join-type="AND">
+        <condition column="book_id" operator="=" value="" active="true" />
+      </filter>
+    </filter-actions>
   </component>
   <component name="DBNavigator.Project.ExecutionManager">
     <retain-sticky-names value="false" />
@@ -520,5 +550,9 @@
         </visibility-settings>
       </environment>
     </general-settings>
+  </component>
+  <component name="DBNavigator.Project.StatementExecutionManager">
+    <execution-variables />
+    <execution-variable-types />
   </component>
 </project>

@@ -2,7 +2,6 @@ package com.likelion.lionlib.domain;
 
 import jakarta.persistence.*;
 import lombok.*;
-
 import java.time.LocalDate;
 
 @Entity
@@ -10,8 +9,9 @@ import java.time.LocalDate;
 @Builder
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Loan extends BaseTime {
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+public class Loan extends BaseTime { // 클래스 이름을 대문자로 변경
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "loan_id")
     private Long id;
 
@@ -23,10 +23,10 @@ public class Loan extends BaseTime {
     @JoinColumn(name = "book_id", nullable = false)
     private Book book;
 
-    private LocalDate loanDate;
-    private LocalDate returnDate;
+    private LocalDate loanDate; // 대출 날짜
+    private LocalDate returnDate; // 반납 날짜
 
     @Setter
     @Enumerated(EnumType.STRING)
-    private LoanStatus status;
+    private LoanStatus status; // 대출 상태
 }
